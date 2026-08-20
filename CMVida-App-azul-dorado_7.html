@@ -1539,6 +1539,44 @@ body,.vt,.ftxt,.ntit,.nres,.qcard-name,.culto-info h4,.hi-inf h4,
   .home-cards-bottom .rrss-block{width:100%;}
 }
 
+.rrss-wa{background:rgba(37,211,102,.16);color:#4FD98A;}
+.rrss-merch{background:rgba(232,176,75,.16);color:#E8B04B;}
+.rrss-soon{border-style:dashed;cursor:pointer;}
+.rrss-badge{flex-shrink:0;font-size:.56rem;font-weight:800;letter-spacing:1px;
+  color:#E8B04B;background:rgba(232,176,75,.14);border:1px solid rgba(232,176,75,.32);
+  border-radius:20px;padding:3px 9px;}
+
+/* ── Flecha para volver ── */
+.sec-back{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.20);
+  color:#F2F6FA;width:34px;height:34px;border-radius:50%;display:flex;flex-shrink:0;
+  align-items:center;justify-content:center;cursor:pointer;padding:0;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:.15s;}
+.sec-back:active{background:rgba(255,255,255,.20);}
+.sec-back svg{width:17px;height:17px;}
+/* En posicion absoluta para no romper el apilado interno de cada
+   cabecera (titulo + subtitulo) ni empujar los botones de la derecha. */
+.con-back{position:relative;padding-left:58px!important;}
+.con-back > .sec-back{position:absolute;left:13px;top:50%;transform:translateY(-50%);z-index:3;}
+/* las cabeceras centradas necesitan el mismo aire por ambos lados */
+.quiz-header.con-back,.phero.con-back,.alb-head.con-back{padding-right:58px!important;}
+.quiz-header.con-back > .sec-back,.phero.con-back > .sec-back{top:20px;transform:none;}
+.quiz-header.con-back{padding-left:0!important;padding-right:0!important;}
+.quiz-header.con-back > .sec-back{left:14px;top:16px;}
+
+/* barra propia para las secciones que no traen cabecera */
+.sec-backbar{display:flex;align-items:center;gap:10px;padding:11px 14px;
+  background:linear-gradient(180deg,#0C1B2E 0%,#132A45 100%);
+  border-bottom:1px solid #1D3350;}
+.sec-backttl{font-size:.95rem;font-weight:700;color:#F2F6FA;}
+.sec-back,.sec-back svg,.sec-backbar{filter:none!important;}
+
+/* Biblia: con la flecha, el titulo y el boton Descargar no caben a
+   tamano completo, asi que se compactan solo en esa cabecera. */
+.bib-header.con-back{padding-left:54px!important;padding-right:10px!important;}
+.bib-header.con-back h2{font-size:.92rem!important;line-height:1.25;}
+.bib-header.con-back > button,
+.bib-header.con-back .bib-dl{font-size:.7rem!important;padding:6px 11px!important;white-space:nowrap;}
+
 </style>
 </head>
 <body>
@@ -1623,45 +1661,6 @@ body,.vt,.ftxt,.ntit,.nres,.qcard-name,.culto-info h4,.hi-inf h4,
   </div>
 </div>
 
-<!-- ═══ COMUNIDAD CMVIDA ═══ -->
-<div class="sec" id="sec-comunidad">
-  <div class="sec-header">
-    <h2>Comunidad CMVida</h2>
-    <p>Conéctate con la iglesia</p>
-  </div>
-  <div class="com-wrap">
-
-    <div class="com-card com-soon" role="button" tabindex="0"
-         onclick="toast('Merchandising CMVida: muy pronto disponible');"
-         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
-      <span class="com-ico com-merch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
-      <div class="com-inf">
-        <h4>Merchandising CMVida</h4>
-        <p>Poleras, tazones y más de la iglesia</p>
-      </div>
-      <span class="com-badge">PRONTO</span>
-    </div>
-
-    <a class="com-card" href="https://iglesiacmvida.cl" target="_blank" rel="noopener noreferrer">
-      <span class="com-ico com-web"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
-      <div class="com-inf">
-        <h4>Sitio web oficial</h4>
-        <p>iglesiacmvida.cl</p>
-      </div>
-      <span class="com-ext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
-    </a>
-
-    <a class="com-card" href="https://whatsapp.com/channel/0029VbDDnsvG3R3qdW4eNQ3j" target="_blank" rel="noopener noreferrer">
-      <span class="com-ico com-wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.23 8.23 0 0 1 0 16.47zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.41-.56-.42h-.47c-.16 0-.43.06-.65.31-.22.25-.85.83-.85 2.03s.87 2.35.99 2.51c.12.16 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg></span>
-      <div class="com-inf">
-        <h4>Canal Oficial en WhatsApp</h4>
-        <p>Avisos y noticias de la iglesia</p>
-      </div>
-      <span class="com-ext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
-    </a>
-
-  </div>
-</div>
 
 <!-- ═══ HOME ═══ -->
 <div class="sec on" id="sec-home">
@@ -1768,7 +1767,12 @@ body,.vt,.ftxt,.ntit,.nres,.qcard-name,.culto-info h4,.hi-inf h4,
       <span class="podc-badge">PRONTO</span>
     </div>
     <div class="rrss-block">
-      <h3 class="rrss-tit">NUESTRAS REDES SOCIALES</h3>
+      <h3 class="rrss-tit">COMUNIDAD CMVIDA</h3>
+      <a class="rrss-card" href="https://whatsapp.com/channel/0029VbDDnsvG3R3qdW4eNQ3j" target="_blank" rel="noopener noreferrer">
+        <span class="rrss-ico rrss-wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.23 8.23 0 0 1 0 16.47zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.41-.56-.42h-.47c-.16 0-.43.06-.65.31-.22.25-.85.83-.85 2.03s.87 2.35.99 2.51c.12.16 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg></span>
+        <div class="rrss-inf"><h4>Canal Informativo</h4><p>Avisos oficiales por WhatsApp</p></div>
+        <span class="rrss-arr">&rsaquo;</span>
+      </a>
       <a class="rrss-card" href="https://www.instagram.com/iglesiacmvida" target="_blank" rel="noopener noreferrer">
         <span class="rrss-ico rrss-ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></span>
         <div class="rrss-inf"><h4>Iglesia CMVida</h4><p>@iglesiacmvida</p></div>
@@ -1789,6 +1793,13 @@ body,.vt,.ftxt,.ntit,.nres,.qcard-name,.culto-info h4,.hi-inf h4,
         <div class="rrss-inf"><h4>IUMP Chile</h4><p>@iglesia_unida</p></div>
         <span class="rrss-arr">&rsaquo;</span>
       </a>
+      <div class="rrss-card rrss-soon" role="button" tabindex="0"
+           onclick="toast('Merchandising CMVida: muy pronto disponible');"
+           onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+        <span class="rrss-ico rrss-merch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+        <div class="rrss-inf"><h4>Merchandising CMVida</h4><p>Poleras, tazones y más</p></div>
+        <span class="rrss-badge">PRONTO</span>
+      </div>
     </div>
   </div>
 
@@ -1892,7 +1903,7 @@ body,.vt,.ftxt,.ntit,.nres,.qcard-name,.culto-info h4,.hi-inf h4,
 
 <!-- ═══ HIMNARIO ═══ -->
 <div class="sec" id="sec-himnario">
-  <div style="background:linear-gradient(180deg,#0C1B2E 0%,#132A45 100%);padding:14px 13px;color:#fff;">
+  <div class="sec-header" style="background:linear-gradient(180deg,#0C1B2E 0%,#132A45 100%);padding:14px 13px;color:#fff;">
     <h2 style="font-size:1rem;font-weight:900;margin-bottom:2px;">🎼 Himnario CMVida</h2>
     <p style="font-size:.72rem;opacity:.8;">Himnos clásicos de la fe cristiana</p>
   </div>
@@ -2246,7 +2257,7 @@ body,.vt,.ftxt,.ntit,.nres,.qcard-name,.culto-info h4,.hi-inf h4,
 </div>
 <div class="sec" id="sec-biblia">
   <!-- Header -->
-  <div style="background:linear-gradient(180deg,#0A1628 0%,#132A45 100%);padding:14px 13px;color:#fff;">
+  <div class="bib-header" style="background:linear-gradient(180deg,#0A1628 0%,#132A45 100%);padding:14px 13px;color:#fff;">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;">
       <div>
         <h2 style="font-size:1rem;font-weight:900;margin-bottom:3px;">📖 Biblia Reina Valera 1960</h2>
@@ -3194,7 +3205,7 @@ function rPerfil(){
     var w=document.createElement('div');
     w.style.cssText='padding:40px 20px;text-align:center;';
     var ico=document.createElement('div');ico.style.cssText='font-size:3rem;margin-bottom:14px;';ico.textContent='👤';
-    var h=document.createElement('h2');h.style.cssText='font-size:1.1rem;font-weight:800;color:#F2F6FA;margin-bottom:8px;';h.textContent='Tu Perfil CMVida';
+    var h=document.createElement('h2');h.style.cssText='font-size:1.1rem;font-weight:800;color:#14263C;margin-bottom:8px;';h.textContent='Tu Perfil CMVida';
     var desc=document.createElement('p');desc.style.cssText='font-size:.82rem;color:#9FB6CF;margin-bottom:20px;line-height:1.5;';
     desc.textContent='Inicia sesión o crea tu cuenta para guardar notas, recibir alertas y acceder a contenido personalizado.';
     var btn=document.createElement('button');
@@ -4909,18 +4920,6 @@ if ('serviceWorker' in navigator) {
     <button class="mn-row" data-mtab="nosotros" onclick="menuGo('nosotros')"><span class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></span><span class="mn-lbl">Nosotros</span><span class="mn-arr">&rsaquo;</span></button>
     <button class="mn-row" data-mtab="mision" onclick="menuGo('mision')"><span class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span><span class="mn-lbl">Misión</span><span class="mn-arr">&rsaquo;</span></button>
     <button class="mn-row" data-mtab="vision" onclick="menuGo('vision')"><span class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span><span class="mn-lbl">Visión</span><span class="mn-arr">&rsaquo;</span></button>
-    <button class="mn-row" data-mtab="comunidad" onclick="menuGo('comunidad')"><span class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span><span class="mn-lbl">Comunidad CMVida</span><span class="mn-arr">&rsaquo;</span></button>
-    <div class="mn-sep">MÁS EN LA APP</div>
-    <button class="mn-row" data-mtab="notas" onclick="menuGo('notas')"><span class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span><span class="mn-lbl">Mis Notas</span><span class="mn-arr">&rsaquo;</span></button>
-    <button class="mn-row" data-mtab="himnario" onclick="menuGo('himnario')"><span class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span><span class="mn-lbl">Himnario</span><span class="mn-arr">&rsaquo;</span></button>
-    <button class="mn-row" data-mtab="instagram" onclick="menuGo('instagram')"><span class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></span><span class="mn-lbl">Alabanzas</span><span class="mn-arr">&rsaquo;</span></button>
-    <button class="mn-row" data-mtab="noticias" onclick="menuGo('noticias')"><span class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M18 14h-8M18 18h-8M18 6h-8v4h8V6z"/></svg></span><span class="mn-lbl">Noticias</span><span class="mn-arr">&rsaquo;</span></button>
-    <button class="mn-row" data-mtab="youtube" onclick="menuGo('youtube')"><span class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="4"/><polygon points="10 9 15 12 10 15 10 9"/></svg></span><span class="mn-lbl">YouTube</span><span class="mn-arr">&rsaquo;</span></button>
-    <button class="mn-row" data-mtab="mural" onclick="menuGo('mural')"><span class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span class="mn-lbl">Mural</span><span class="mn-arr">&rsaquo;</span></button>
-    <button class="mn-row" data-mtab="quiz" onclick="menuGo('quiz')"><span class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="mn-lbl">Quiz Bíblico</span><span class="mn-arr">&rsaquo;</span></button>
-    <button class="mn-row" data-mtab="ninos" onclick="menuGo('ninos')"><span class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span><span class="mn-lbl">Niños</span><span class="mn-arr">&rsaquo;</span></button>
-    <button class="mn-row" data-mtab="alertas" onclick="menuGo('alertas')"><span class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="mn-lbl">Alertas</span><span class="mn-arr">&rsaquo;</span></button>
-    <button class="mn-row" data-mtab="perfil" onclick="menuGo('perfil')"><span class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><span class="mn-lbl">Mi Perfil</span><span class="mn-arr">&rsaquo;</span></button>
   </nav>
   <a class="mn-web" href="https://iglesiacmvida.cl" target="_blank" rel="noopener noreferrer">
     <span class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
@@ -4973,6 +4972,76 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') toggleMenu
   });
   if(rm&&rm.addEventListener) rm.addEventListener('change',tryPlay);
   tryPlay();
+})();
+</script>
+
+<script>
+/* ── Flecha para volver ─────────────────────────────────────
+   Cada seccion recibe un boton "atras" que deshace el ultimo
+   salto. Se apoya en switchTab, asi que funciona igual venga
+   el usuario del menu, de la barra inferior o de un acceso. */
+(function(){
+  var pila=[], volviendo=false;
+  var CABECERAS='.sec-header,.bib-header,.nos-header-bar,.not-header-bar,'
+               +'.alb-head,.yt-head,.quiz-header,.phero';
+
+  function flecha(){
+    var b=document.createElement('button');
+    b.className='sec-back'; b.type='button';
+    b.setAttribute('aria-label','Volver');
+    b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" '
+      +'stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
+    b.addEventListener('click',volver);
+    return b;
+  }
+
+  function montar(sec){
+    /* La flecha se inserta dentro de la cabecera, asi que queda como nieto
+     de la seccion: hay que buscarla en todo el subarbol o se duplica
+     cada vez que se vuelve a entrar. */
+  if(!sec || sec.id==='sec-home' || sec.querySelector('.sec-back')) return;
+    var cab=sec.querySelector(CABECERAS);
+    if(cab){
+      cab.classList.add('con-back');
+      cab.insertBefore(flecha(), cab.firstChild);
+    } else {
+      /* secciones sin cabecera propia (Biblia, Notas): barra dedicada */
+      var barra=document.createElement('div');
+      barra.className='sec-backbar';
+      barra.appendChild(flecha());
+      var t=document.createElement('span');
+      t.className='sec-backttl';
+      t.textContent=({'sec-biblia':'Biblia','sec-notas':'Mis Notas','sec-perfil':'Mi Perfil','sec-mural':'Mural','sec-alertas':'Alertas','sec-ninos':'CMVida Ni\u00f1os','sec-youtube':'YouTube','sec-instagram':'Alabanzas','sec-noticias':'Noticias'})[sec.id]||'Volver';
+      barra.appendChild(t);
+      sec.insertBefore(barra, sec.firstChild);
+    }
+  }
+
+  function volver(){
+    var destino = pila.length ? pila.pop() : 'home';
+    volviendo=true;
+    try{ switchTab(destino); } finally { volviendo=false; }
+  }
+
+  var original=window.switchTab;
+  if(typeof original!=='function') return;
+  window.switchTab=function(tab){
+    var actual=document.querySelector('.sec.on');
+    var idActual=actual?actual.id.replace('sec-',''):null;
+    if(!volviendo && idActual && idActual!==tab){
+      pila.push(idActual);
+      if(pila.length>25) pila.shift();
+    }
+    var r=original.apply(this, arguments);
+    montar(document.getElementById('sec-'+tab));
+    return r;
+  };
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('.sec').forEach(montar);
+  });
+  if(document.readyState!=='loading'){
+    document.querySelectorAll('.sec').forEach(montar);
+  }
 })();
 </script>
 </body>
