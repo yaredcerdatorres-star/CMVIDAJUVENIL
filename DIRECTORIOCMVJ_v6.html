@@ -774,8 +774,14 @@ body{background:#f0f7ff;font-family:'Nunito',sans-serif;color:#1e293b;min-height
       </div>
       <div style="padding:22px;">
         <div id="dirFichaGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"></div>
-        <button onclick="document.getElementById('dirModalFicha').style.display='none'"
-          style="background:linear-gradient(135deg,var(--azul-osc),var(--azul));color:#fff;border:none;border-radius:10px;padding:10px 24px;font-weight:800;width:100%;margin-top:16px;cursor:pointer;">Cerrar</button>
+        <div style="display:flex;gap:10px;margin-top:16px;">
+          <button onclick="document.getElementById('dirModalFicha').style.display='none'"
+            style="background:linear-gradient(135deg,var(--azul-osc),var(--azul));color:#fff;border:none;border-radius:10px;padding:10px 24px;font-weight:800;flex:1;cursor:pointer;">Cerrar</button>
+          <button id="dirBtnEliminarFicha" onclick="dirEliminarPersona()"
+            style="background:#fee2e2;color:#991b1b;border:2px solid #fca5a5;border-radius:10px;padding:10px 18px;font-weight:800;cursor:pointer;white-space:nowrap;">
+            <i class="fa-solid fa-trash-can me-1"></i>Eliminar del Directorio
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -854,6 +860,20 @@ let chartInstance = null;
 let chartInstanceED = null;
 let datosCultosCache = null;
 let datosEDCache = null;
+let dirEliminadosCache = new Set();
+
+// Trae "Directorio_Eliminados": nombres de personas eliminadas del Directorio.
+// Se usa para que ni las Alertas ni Maestroscmvj vuelvan a mostrarlas, sin
+// importar si quedaron como "extra" en alguna clase de Directorio_Estado.
+async function cargarEliminados() {
+  try {
+    const resp = await fetch(SCRIPT+'?hoja='+encodeURIComponent('Directorio_Eliminados'));
+    const rows = await resp.json();
+    dirEliminadosCache = new Set((rows||[]).slice(1).map(r=>String(r[0]||'').trim()).filter(Boolean));
+  } catch(e) {
+    console.warn('No se pudo cargar Directorio_Eliminados:', e);
+  }
+}
 
 // ===== LOGIN =====
 function verificarPass() {
@@ -874,7 +894,7 @@ async function inicializar() {
     const [c, e] = await Promise.all([fetchData('Cultos'), fetchData('ED Juventud')]);
     datosCultosCache = c;
     datosEDCache = e;
-    await alertasArchSincronizar();
+    await Promise.all([alertasArchSincronizar(), cargarEliminados()]);
     calcularAlertas(c, e);
   } catch(err) { console.warn('Error cargando datos iniciales:', err); }
   cargarPortadaStats();
@@ -1470,7 +1490,9 @@ async function alertasArchSincronizar() {
 
 function calcularAlertas(datosCultos, datosED) {
   const todos = [...(datosCultos||[]), ...(datosED||[])];
-  const nombres = [...new Set(todos.map(r=>r.nombre))];
+  // Se descartan las personas eliminadas del Directorio: aunque tengan
+  // historial de faltas, ya no deben generar alertas nuevas.
+  const nombres = [...new Set(todos.map(r=>r.nombre))].filter(n=>!dirEliminadosCache.has(n));
   const amarillas=[], rojas=[];
 
   nombres.forEach(nombre => {
@@ -2910,7 +2932,10 @@ function dirRenderTabla() {
   `).join('');
 }
 
+let dirFichaIdxActual = null;
+
 function dirAbrirFicha(idx) {
+  dirFichaIdxActual = idx;
   const j = dirFiltrados[idx];
   document.getElementById('dirModalNombre').textContent = j.nombre;
   document.getElementById('dirModalSub').textContent = (j.edad?j.edad+' años — ':'')+j.clase;
@@ -2939,6 +2964,50 @@ function dirAbrirFicha(idx) {
 
 function dirCerrarModal(e) {
   if (e.target.id === 'dirModalFicha') document.getElementById('dirModalFicha').style.display = 'none';
+}
+
+// Elimina definitivamente a la persona de la ficha abierta: borra su fila
+// del Sheet "Directorio", la registra en "Directorio_Eliminados" y limpia
+// en cascada cualquier rastro suyo en Directorio_Estado (backend se encarga).
+// Además recalcula las Alertas al toque para que deje de aparecer ahí también.
+async function dirEliminarPersona() {
+  if (dirFichaIdxActual === null) return;
+  const j = dirFiltrados[dirFichaIdxActual];
+  if (!j) return;
+  if (!confirm('¿Eliminar definitivamente a '+j.nombre+' del Directorio?\n\nSe quitará también de las clases de asistencia y de las alertas de seguimiento. Esta acción no se puede deshacer.')) return;
+
+  const btn = document.getElementById('dirBtnEliminarFicha');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i>Eliminando...';
+
+  try {
+    const resp = await fetch(SCRIPT, {
+      method: 'POST',
+      body: JSON.stringify({ hoja: 'Directorio', accion: 'eliminarPersona', nombrePila: j.nombrePila, apellido: j.apellido })
+    });
+    const r = await resp.json();
+    if (r.result === 'error') throw new Error(r.mensaje || 'Error del servidor');
+
+    // Se saca de la memoria local para que desaparezca de inmediato de tarjetas/tabla/stats.
+    dirTodos = dirTodos.filter(p => p.nombre !== j.nombre);
+    dirFiltrados = dirFiltrados.filter(p => p.nombre !== j.nombre);
+    dirEliminadosCache.add(j.nombre);
+
+    dirActualizarStats();
+    dirRenderVista();
+    document.getElementById('dirModalFicha').style.display = 'none';
+
+    // Recalcula alertas para que las de esta persona desaparezcan sin recargar la página.
+    if (datosCultosCache || datosEDCache) calcularAlertas(datosCultosCache, datosEDCache);
+
+    toast('✓ '+j.nombre+' eliminado/a del Directorio (y de asistencia/alertas)');
+  } catch(e) {
+    console.warn('Error al eliminar del Directorio:', e);
+    toast('⚠️ No se pudo eliminar. Revisa tu conexión e inténtalo de nuevo.', 'err');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-trash-can me-1"></i>Eliminar del Directorio';
+  }
 }
 
 // ===== MARCA DE AGUA (usa el mismo logo del header, sin duplicar el base64) =====
