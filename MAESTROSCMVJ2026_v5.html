@@ -446,6 +446,20 @@ function normalizarTexto(t) {
   return String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
 }
 
+// Trae "Directorio_Eliminados": nombres de personas eliminadas del Directorio
+// desde DIRECTORIOCMVJ. Se usa para que no vuelvan a aparecer aquí aunque
+// hayan quedado guardadas como "extra" en Directorio_Estado.
+async function cargarEliminados() {
+  try {
+    const resp = await fetch(SCRIPT+'?hoja='+encodeURIComponent('Directorio_Eliminados'));
+    const rows = await resp.json();
+    return new Set((rows||[]).slice(1).map(r=>String(r[0]||'').trim()).filter(Boolean));
+  } catch(e) {
+    console.warn('No se pudo cargar Directorio_Eliminados:', e);
+    return new Set();
+  }
+}
+
 // Trae desde el Directorio (Sheets) los nombres de la clase actual
 async function cargarDirectorioClase() {
   const resp = await fetch(SCRIPT+'?hoja='+encodeURIComponent('Directorio'));
@@ -622,9 +636,11 @@ async function cargarPersonas() {
     nombresDirectorio = FALLBACK_DIRECTORIO[claseActual.id] || [];
   }
 
+  const eliminados = await cargarEliminados();
+
   personas = {};
-  nombresDirectorio.forEach(n => { if(!personas[n] && !removidos.includes(n)) personas[n] = {estado:'Ausente', motivo:''}; });
-  extras.forEach(n => { if(!personas[n]) personas[n] = {estado:'Ausente', motivo:''}; });
+  nombresDirectorio.forEach(n => { if(!personas[n] && !removidos.includes(n) && !eliminados.has(n)) personas[n] = {estado:'Ausente', motivo:''}; });
+  extras.forEach(n => { if(!personas[n] && !eliminados.has(n)) personas[n] = {estado:'Ausente', motivo:''}; });
 
   renderPersonas();
 }
